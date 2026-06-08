@@ -33,14 +33,15 @@ pipeline:
             steps:
               - step:
                   type: Run
-                  name: Run_1
-                  identifier: Run_1
+                  name: RunTests
+                  identifier: RunTests
                   spec:
+                    image: mcr.microsoft.com/playwright:v1.54.0-jammy
                     shell: Sh
-                    command: |-
+                    command: |
                       pwd
-                                            ls -la
-                                            node --version
-                                            npm --version
-                                            npm ci
-                                            npx playwright test
+                      ls -la
+                      node --version
+                      npm --version
+                      npm ci
+                      npx playwright test
