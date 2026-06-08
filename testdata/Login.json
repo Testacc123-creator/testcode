@@ -1,0 +1,32 @@
+[
+  {
+    "testName": "User Signup - Set 1",
+
+    "signup": {
+      "name": "newuser",
+      "email": "hello@gmail.com",
+      "password": "newuser@123"
+    },
+
+    "dob": {
+      "day": "24",
+      "month": "June",
+      "year": "2000"
+    },
+
+    "personal": {
+      "firstname": "new",
+      "lastname": "user",
+      "mobnumber": "123456789"
+    },
+
+    "address": {
+      "company": "Bebotech",
+      "address": "Chd",
+      "country": "India",
+      "state": "Pnjb",
+      "city": "Chd",
+      "zip": "12345"
+    }
+  }
+]
