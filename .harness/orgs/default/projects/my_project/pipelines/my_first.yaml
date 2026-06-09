@@ -1,0 +1,27 @@
+pipeline:
+  name: testnew
+  identifier: testnew
+  projectIdentifier: my_project
+  orgIdentifier: default
+  stages:
+    - stage:
+        name: CI_Build
+        identifier: CI_Build
+        type: CI
+        spec:
+          execution:
+            steps:
+              - step:
+                  name: Run
+                  identifier: run
+                  type: Run
+                  spec:
+                    shell: Sh
+                    command: |
+                      echo "Running on Local/Delegate mode"
+          platform:
+            os: Linux
+            arch: Amd64
+          runtime:
+            type: Docker
+            spec: {}
