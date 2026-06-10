@@ -3,31 +3,60 @@ pipeline:
   identifier: testnew
   projectIdentifier: my_project
   orgIdentifier: default
+  tags: {}
+  properties:
+    ci:
+      codebase:
+        connectorRef: account.githubplaywrightrepo
+        repoName: testcode
+        build: <+input>
   stages:
     - stage:
-        name: CI_Build
-        identifier: CI_Build
+        name: Run Playwright Tests
+        identifier: run_playwright_tests
         type: CI
         spec:
-          codebase:
-            connectorRef: new_connector
-            repoName: testcode
-            build: <+input>
-          execution:
-            steps:
-              - step:
-                  name: Print
-                  identifier: print
-                  type: Run
-                  spec:
-                    shell: Sh
-                    command: |
-                      echo "Pipeline working"
-                      ls
+          cloneCodebase: true
           platform:
             os: Linux
             arch: Amd64
           runtime:
-            type: Docker
-            spec:
-              harnessImageConnectorRef: account.harnessImage
+            type: Cloud
+            spec: {}
+          execution:
+            steps:
+              - step:
+                  type: Run
+                  name: Install Dependencies
+                  identifier: install_dependencies
+                  spec:
+                    shell: Sh
+                    command: |
+                      npm ci
+                      npx playwright install --with-deps chromium
+              - step:
+                  type: Run
+                  name: Run Playwright Tests
+                  identifier: run_playwright_tests
+                  spec:
+                    shell: Sh
+                    command: |
+                      npx playwright test --headed=false
+                    envVariables:
+                      ENV: QA
+              - step:
+                  type: Run
+                  name: Upload Test Report
+                  identifier: upload_test_report
+                  spec:
+                    shell: Sh
+                    command: |
+                      cd AutomationFramework_QA
+                      echo "Test report available at playwright-report/"
+                  when:
+                    stageStatus: All
+          serviceDependencies: []
+          caching:
+            enabled: true
+            paths:
+              - AutomationFramework_QA/node_modules
